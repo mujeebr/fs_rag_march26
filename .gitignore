@@ -1,0 +1,5 @@
+rag_fs/
+__pycache__/
+*.pyc
+*.pyo
+.env
