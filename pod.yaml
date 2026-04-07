@@ -1,0 +1,38 @@
+
+# Pod: runs your Streamlit app (port 8501 inside the container)
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  containers:
+    - name: my-app
+      image: my-app:latest
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 8501
+          name: http
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "250m"
+        limits:
+          memory: "2Gi"
+          cpu: "2"
+---
+# Service: exposes the pod so you can open it from your machine (Minikube)
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app
+spec:
+  type: NodePort
+  selector:
+    app: my-app
+  ports:
+    - port: 8501
+      targetPort: 8501
+      nodePort: 30080
+      name: http
